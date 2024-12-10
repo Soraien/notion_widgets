@@ -1,257 +1,154 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html>
 <head>
+	<meta charset="UTF-8">
+	<title>Interactive Map</title>
+	<link rel="shortcut icon" href="http://icons.iconarchive.com/icons/iconsmind/outline/16/Map-Marker-icon.png" type="image/ico" />
+	<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed|Dosis:800" rel="stylesheet">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+<style>
 
-  <style>
-    :root {
-      --my-color:#34495e;
-      --my-color-accent:#2c3e50;
-      --black: #3c3c3c;
-      --black-accent: #2d2d2d;
-      --blue: #809bce;
-      --blue-accent: #5c6f94;
-      --purple: #8a508f;
-      --purple-accent: #5d3661;
-      --mint: #b8e0d4;
-      --mint-accent: #8ba89f;
-      --pink: #eac4d5;
-      --pink-accent: #b495a3;
-      --green: #74a892;
-      --green-accent: #5e8675;
-      --red:#d74a49;
-      --red-accent:#b53f3f;
-      --orange:#d35400;
-      --orange-accent:#9e4102;
-      --yellow:#f1c40f;
-      --yellow-accent:#bd9a0c;
-    }
+/*--- INTERACTIVE MAP - TESSISAMESS - 2018 ---*/
+/*-- Find more fun stuff at: tessisamess.insanejournal.com --*/
 
-    button {
-      background: none;
-      color: inherit;
-      border: none;
-      padding: 0;
-      font: inherit;
-      cursor: pointer;
-      outline: inherit;
-    }
 
-    i {
-      padding-right: 2px;
-    }
+/* REPLACEMENTS */
 
-    .btn {
-      text-align: center;
-      color: #ffffff;
-      font-family: 'Manrope';
-      display: inline-block;
-      margin: 10px;
-    }
+:root{
+	--dark: #111; /* page text */
+	--page-bg: #2B4364; /* page background */
+	--lightest: #fff; /* credit link */
 
-    .my-color {
-      background-color: var(--my-color);
-    }
+	--bg: rgba(255,255,255,0.7); /* clip map background; open location background */
+	--bg-img: url(https://i.imgur.com/n84LNaZ.png)center fixed; /* optional page background */
+	--bg-map-img: url(BG_IMG)center no-repeat; /* background image map */
 
-    .my-color:hover {
-      background-color: var(--my-color-accent);
-    }
+	--community: #3C798D;
+	--city: #4A8D3C;
+	--entertainment: #8D3C3C;
+	--housing: #8D3C72;
+	--dining: #613C8D;
+	--shopping: #3C3C8D;
 
-    .my-color.threeD {
-      box-shadow: 0px 4px 0px var(--my-color-accent);
-    }
+	--main-font: Roboto Condensed,helvetica,sans-serif;
+	--headings: Dosis,arial black,gadget,sans-serif;
+}
 
-    .my-color.threeD:active {
-      box-shadow: 0 0;
-      background-color: var(--my-color-accent);
-    }
-    .black {
-      background-color: var(--black);
-    }
 
-    .black:hover {
-      background-color: var(--black-accent);
-    }
+/* GENERAL */
 
-    .black.threeD {
-      box-shadow: 0px 4px 0px var(--black-accent);
-    }
+body{margin:0;background:var(--page-bg) var(--bg-img);font-family:var(--main-font);color:var(--dark);font-size:12px;}
+img{max-width:100%;}
+h1,h2,h3{font-family:var(--headings);margin:0;text-align:center;font-weight:normal;text-transform:uppercase;}
 
-    .black.threeD:active {
-      box-shadow: 0 0;
-      background-color: var(--black-accent);
-    }
+#cred{position:fixed;left:10px;bottom:5px;text-decoration:none;color:var(--lightest);font-family:var(--headings);font-size:25px;opacity:0.5;}
+#cred:hover{opacity:1;}
 
-    .blue {
-      background-color: var(--blue);
-    }
 
-    .blue:hover {
-      background-color: var(--blue-accent);
-    }
+/* MAP */
 
-    .blue.threeD {
-      box-shadow: 0px 4px 0px var(--blue-accent);
-    }
+#map-outer{margin:3vh 3vw;}
 
-    .blue.threeD:active {
-      box-shadow: 0 0;
-      background-color: var(--blue-accent);
-    }
+#clip-map{margin:0 auto;background:var(--bg);position:relative;width:74vw;max-width:1000px;height:94vh;
 
-    .purple {
-      background-color: var(--purple);
-    }
+/* CLIP MAP SHAPE */
+-webkit-clip-path:polygon(50% 0%, 86% 0, 83% 42%, 94% 78%, 87% 91%, 32% 100%, 0% 43%, 12% 0);clip-path:polygon(50% 0%, 86% 0, 83% 42%, 94% 78%, 87% 91%, 32% 100%, 0% 43%, 12% 0);
 
-    .purple:hover {
-      background-color: var(--purple-accent);
-    }
+}
 
-    .purple.threeD {
-      box-shadow: 0px 4px 0px var(--purple-accent);
-    }
+#bg-map{height:94vh;width:94vw;background:#000 var(--bg-map-img);background-size:cover;position:relative;}
 
-    .purple.threeD:active {
-      box-shadow: 0 0;
-      background-color: var(--purple-accent);
-    }
 
-    .mint {
-      background-color: var(--mint);
-    }
+/* KEY - CLOSED */
 
-    .mint:hover {
-      background-color: var(--mint-accent);
-    }
+#key{background:var(--bg);font-family:var(--main-font);font-size:0;color:var(--dark);line-height:1.6;text-align:justify;border:none;-webkit-box-shadow:1px 1px 4px 0 rgba(0,0,0,0.4);box-shadow:1px 1px 4px 0 rgba(0,0,0,0.4);border-radius:8px;width:35px;height:35px;overflow:hidden;position:absolute;cursor:pointer;-webkit-transition:all 0.4s ease-in-out;-moz-transition:all 0.4s ease-in-out;-ms-transition:all 0.4s ease-in-out;-o-transition:all 0.4s ease-in-out;transition:all 0.4s ease-in-out;z-index:3;top:20px;left:20px;}
 
-    .mint.threeD {
-      box-shadow: 0px 4px 0px var(--mint-accent);
-    }
+#key div{display:flex;align-items:center;}
+#key .menu ~ div img{display:none;width:20px;margin-right:8px;}
 
-    .mint.threeD:active {
-      box-shadow: 0 0;
-      background-color: var(--mint-accent);
-    }
 
-    .pink {
-      background-color: var(--pink);
-    }
+/* KEY - OPENED */
 
-    .pink:hover {
-      background-color: var(--pink-accent);
-    }
+#key:focus{padding:20px;width:300px;height:auto;border-radius:5px;font-size:15px;border:1px solid rgba(0,0,0,0.4);outline:none;z-index:4;}
+#key:focus .menu{display:none;}
 
-    .pink.threeD {
-      box-shadow: 0px 4px 0px var(--pink-accent);
-    }
+#key:focus .menu ~ div img{display:initial;}
+#key:focus .menu ~ div{border-bottom:1px solid rgba(0,0,0,0.05);padding:5px 0;}
 
-    .pink.threeD:active {
-      box-shadow: 0 0;
-      background-color: var(--pink-accent);
-    }
 
-    .green {
-      background-color: var(--green);
-    }
+/* LOCATIONS - CLOSED */
 
-    .green:hover {
-      background-color: var(--green-accent);
-    }
+.location{font-family:var(--main-font);font-size:0;color:var(--dark);line-height:1.6;padding:0;border:none;-webkit-box-shadow:1px 1px 4px 0 rgba(0,0,0,0.4);box-shadow:1px 1px 4px 0 rgba(0,0,0,0.4);border-radius:100%;width:40px;height:40px;overflow:hidden;position:absolute;cursor:pointer;-webkit-transition:all 0.4s ease-in-out;-moz-transition:all 0.4s ease-in-out;-ms-transition:all 0.4s ease-in-out;-o-transition:all 0.4s ease-in-out;transition:all 0.4s ease-in-out;z-index:3;}
+.location .pin{filter:invert(100%);width:20px;height:20px;}
+.location .photo{display:none;}
 
-    .green.threeD {
-      box-shadow: 0px 4px 0px var(--green-accent);
-    }
 
-    .green.threeD:active {
-      box-shadow: 0 0;
-      background-color: var(--green-accent);
-    }
+/* LOCATIONS - OPENED */
 
-    .red {
-      background-color: var(--red);
-    }
+.location:focus{background:var(--bg);text-align:justify;width:300px;height:auto;border-radius:5px;font-size:15px;border:1px solid rgba(0,0,0,0.4);outline:none;z-index:4;}
+.location:focus .photo{display:initial;}
+.location:focus .pin{display:none;}
+.location:focus div{padding:20px;max-height:200px;overflow:auto;}
 
-    .red:hover {
-      background-color: var(--red-accent);
-    }
 
-    .red.threeD {
-      box-shadow: 0px 4px 0px var(--red-accent);
-    }
+/* LOCATION TYPES */
 
-    .red.threeD:active {
-      box-shadow: 0 0;
-      background-color: var(--red-accent);
-    }
+.community{background:var(--community);}
+.city{background:var(--city);}
+.entertainment{background:var(--entertainment);}
+.housing{background:var(--housing);}
+.dining{background:var(--dining);}
+.shopping{background:var(--shopping);}
 
-    .orange {
-      background-color: var(--orange);
-    }
 
-    .orange:hover {
-      background-color: var(--orange-accent);
-    }
+/* LOCATION POSITIONS */
 
-    .orange.threeD {
-      box-shadow: 0px 4px 0px var(--orange-accent);
-    }
+#loc-1{left:150px;top:100px;}
 
-    .orange.threeD:active {
-      box-shadow: 0 0;
-      background-color: var(--orange-accent);
-    }
 
-    .yellow {
-      background-color: var(--yellow);
-    }
-
-    .yellow:hover {
-      background-color: var(--yellow-accent);
-    }
-
-    .yellow.threeD {
-      box-shadow: 0px 4px 0px var(--yellow-accent);
-    }
-
-    .yellow.threeD:active {
-      box-shadow: 0 0;
-      background-color: var(--yellow-accent);
-    }
-
-    .rounded {
-      border-radius: 20px;
-    }
-
-    .small {
-      padding: 5px 20px;
-      font-size: 10px;
-    }
-
-    .mid {
-      padding: 10px 40px;
-      font-size: 12px;
-    }
-
-    .large {
-      padding: 15px 60px;
-      font-size: 18px;
-    }
-  </style>
-
+</style>
 </head>
 
 <body>
 
-  <button class="btn mid pink rounded threeD" type="button" onclick="navigate()"> <i class="fa-regular fa-star"></i> Test</button>
-  
-  <script>
-    function navigate() {
-      window.open("https://example.com", '_blank').focus();
-    }
-  </script>
+
+
+<article id="map-outer">
+
+	<button id="key">
+		<img src="https://i.imgur.com/hQfrpdp.png" class="menu">
+		<h2>GUIDE</h2>
+		<div><img src="ICON_URL"> Title</div>
+		<div><img src="ICON_URL"> Title</div>
+		<div><img src="ICON_URL"> Title</div>
+		<div><img src="ICON_URL"> Title</div>
+	</button>
+
+
+	<section id="clip-map">
+
+
+
+		<button id="loc-1" class="location dining">
+			<img src="ICON_URL" class="pin">
+			<img src="PHOTO_URL" class="photo">
+			<div>
+				<h3>Location</h3>
+				Location info
+			</div>
+		</button>
+
+
+
+	</section>
+</article>
+
+
+
+<a href="http://tessisamess.insanejournal.com/" id="cred">&copy;</a>
+
+
 
 </body>
-
 </html>
